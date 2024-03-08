@@ -524,10 +524,17 @@ namespace Microsoft.AspNetCore.Identity.Test
             {
                 id.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, loginProvider));
             }
-            // REVIEW: auth changes we lost the ability to mock is persistent
-            //var properties = new AuthenticationProperties { IsPersistent = isPersistent };
-            var authResult = AuthenticateResult.NoResult();
-             
+            else
+            {
+                id.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, "password"));
+            }
+
+            // Need a successful result for signInManager.Verify() to succeed.
+            var authResult = AuthenticateResult.Success(new AuthenticationTicket(
+                principal: new ClaimsPrincipal(id), properties: new AuthenticationProperties(), loginProvider
+                ));
+
+
             auth.Setup(a => a.AuthenticateAsync(context, IdentityConstants.ApplicationScheme)).Returns(Task.FromResult(authResult)).Verifiable();
 
             var manager = SetupUserManager(user);
@@ -538,7 +545,7 @@ namespace Microsoft.AspNetCore.Identity.Test
 
                 signInManager.CallBase = true; // need this magic!
 
-                signInManager.Setup(s => s.SignInWithClaimsAsync(user, It.IsAny<AuthenticationProperties>(), It.IsAny<List<Claim>>())).Returns(Task.FromResult(0)).Verifiable();
+                signInManager.Setup(s => s.SignInWithClaimsAsync(user, It.IsAny<AuthenticationProperties>(), It.IsAny<List<Claim>>())).Returns(Task.CompletedTask).Verifiable();
 
                 // Act
                 await signInManager.Object.RefreshSignInAsync(user);
