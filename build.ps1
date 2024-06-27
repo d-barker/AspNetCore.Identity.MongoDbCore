@@ -8,7 +8,7 @@ param(
 )
 
 $name = "AspNetCore.Identity.MongoDbCore"
-$project = "./AspNetCore.Identity.MongoDbCore/src/AspNetCore.Identity.MongoDbCore.csproj"
+$project = "./src/AspNetCore.Identity.MongoDbCore.csproj"
 
 Write-Output "Checking if GitVersion is installed..."
 
@@ -31,31 +31,31 @@ $json = & gitversion | ConvertFrom-Json
 
 Write-Output $json
 
-$source = "https://rise-x.pkgs.visualstudio.com/3e51f2c5-532a-4292-a53d-eaa48473daf9/_packaging/Diana.Graph/nuget/v3/index.json"
+$source = "https://rise-x.pkgs.visualstudio.com/3e51f2c5-532a-4292-a53d-eaa48473daf9/_packaging/Diana.Services/nuget/v3/index.json"
 
 Write-Output "Building and publishing Nuget package..."
 
 $NuGetVersionV2 = $($json.NuGetVersionV2)
 $FullSemVer = $($json.FullSemVer)
-$AssemblySemFileVer = "6.0.1"
+$AssemblySemFileVer = "6.0.4"
 $AssemblySemVer = $($json.AssemblySemVer)
 $MajorMinorPatch = $($json.AssemblySemVer)
 
-Write-Output "Version: $($AssemblySemVer)"
+Write-Output "Version: $($AssemblySemFileVer)"
 
 # & dotnet build "$($project)" --configuration "Release" -p:Version="$($MajorMinorPatch)" -p:FileVersion="$($AssemblySemVer)" -p:InformationalVersion="$($FullSemVer)" -p:PackageVersion="$($AssemblySemFileVer)" $($interactive ? '--interactive' : '')
 & dotnet build "$($project)" --configuration "Release" $($interactive ? '--interactive' : '')
 
-Write-Host "dotnet pack `"$($project)`" --configuration Release -p:Version=$($MajorMinorPatch) -p:FileVersion=$($AssemblySemVer) -p:InformationalVersion=$($FullSemVer) -p:PackageVersion=$($AssemblySemFileVer) --output `"_publish`" $($interactive ? '--interactive' : '')"
+Write-Host "dotnet pack `"$($project)`" --configuration Release -p:Version=$($AssemblySemFileVer) -p:FileVersion=$($AssemblySemFileVer) -p:InformationalVersion=$($AssemblySemFileVer) -p:PackageVersion=$($AssemblySemFileVer) --output `"_publish`" $($interactive ? '--interactive' : '')"
 
-# & dotnet pack "$($project)" --no-build --no-restore --configuration "Release" -p:Version="$($MajorMinorPatch)" -p:FileVersion="$($AssemblySemVer)" -p:InformationalVersion="$($FullSemVer)" -p:PackageVersion="$($AssemblySemFileVer)" --output "_publish" $($interactive ? '--interactive' : '')
-& dotnet pack "$($project)" --no-build --no-restore --configuration "Release" --output "_publish" $($interactive ? '--interactive' : '')
+& dotnet pack "$($project)" --no-build --no-restore --configuration "Release" -p:Version="$($AssemblySemFileVer)" -p:FileVersion="$($AssemblySemFileVer)" -p:InformationalVersion="$($AssemblySemFileVer)" -p:PackageVersion="$($AssemblySemFileVer)" --output "_publish" $($interactive ? '--interactive' : '')
+# & dotnet pack "$($project)" --no-build --no-restore --configuration "Release" --output "_publish" $($interactive ? '--interactive' : '')
 
 # if ($AssemblySemFileVer.EndsWith(".0")) {
 #     $AssemblySemFileVer = $AssemblySemFileVer.Substring(0, $AssemblySemFileVer.Length - 2)
 # }
-
-$pushCommand = "dotnet nuget push ./_publish/$($name).$($AssemblySemFileVer).nupkg --interactive --source $source --timeout 900 --api-key ""Cli\"""
+$packageName = "$($name).$($AssemblySemFileVer).nupkg"
+$pushCommand = "dotnet nuget push ./_publish/$($packageName) --interactive --source $source --timeout 900 --api-key ""Cli\"""
 
 if ($interactive) {
     $pushCommand += " --interactive"
@@ -64,4 +64,4 @@ if ($interactive) {
 Invoke-Expression $pushCommand
 
 Write-Output "Successfully published Nuget package. Add to your project with:"
-Write-Output "dotnet add package $($name) --version $($AssemblySemFileVer)"
+Write-Output "dotnet add package $($packageName) --version $($AssemblySemFileVer)"

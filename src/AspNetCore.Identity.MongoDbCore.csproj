@@ -29,15 +29,15 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.8" />
-    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
-    <PackageReference Include="MongoDbGenericRepository" Version="1.4.8" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="MongoDbGenericRepository" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.8" />
-    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
-    <PackageReference Include="MongoDbGenericRepository" Version="1.4.8" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="MongoDbGenericRepository" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
