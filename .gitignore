@@ -303,3 +303,4 @@ __pycache__/
 
 # Output from the code coverage analysis
 **/**/coverage.json
+appsettings.local.json

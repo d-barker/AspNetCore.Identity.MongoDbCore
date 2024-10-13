@@ -57,7 +57,6 @@ namespace AspNetCore.Identity.MongoDbCore.IntegrationTests.Infrastructure
 
         public static IServiceProvider Instance { get; set; }
 
-        const string connectionString = "mongodb://localhost:27017";
         private static readonly IMongoRepository _mongoDbRepository;
 
         private static readonly IMongoRepository _mongoDbRepository2;

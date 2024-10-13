@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             }
             else
             {
-                Assert.False(true, "No logger registered");
+                Assert.Fail("No logger registered");
             }
         }
     }

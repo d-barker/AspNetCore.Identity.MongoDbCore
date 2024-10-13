@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             var userManager = MockHelpers.MockUserManager<TestUser>().Object;
             var roleManager = MockHelpers.MockRoleManager<TestRole>().Object;
             var options = new Mock<IOptions<IdentityOptions>>();
-            Assert.Throws<ArgumentNullException>("optionsAccessor",
+            Assert.Throws<ArgumentException>("optionsAccessor",
                 () => new UserClaimsPrincipalFactory<TestUser, TestRole>(userManager, roleManager, options.Object));
             var identityOptions = new IdentityOptions();
             options.Setup(a => a.Value).Returns(identityOptions);

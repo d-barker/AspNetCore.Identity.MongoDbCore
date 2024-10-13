@@ -11,6 +11,8 @@ using MongoDbGenericRepository.Models;
 
 namespace AspNetCore.Identity.MongoDbCore.Test
 {
+
+
     public class MongoDatabaseFixture<TUser, TKey> : IDisposable
         where TUser : IDocument<TKey>
         where TKey : IEquatable<TKey>

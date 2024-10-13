@@ -14,8 +14,6 @@ using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Models;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
-using System.ComponentModel;
-using MongoDB.Bson;
 
 namespace AspNetCore.Identity.MongoDbCore
 {
@@ -211,7 +209,6 @@ namespace AspNetCore.Identity.MongoDbCore
             var updateRes = await collection.ReplaceOneAsync(x => x.Id.Equals(user.Id)
                                                                && x.ConcurrencyStamp.Equals(oldStamp),
                                                              user);
-
 
             if (updateRes.ModifiedCount == 0)
             {
@@ -469,7 +466,7 @@ namespace AspNetCore.Identity.MongoDbCore
         /// <param name="user">The user whose role membership should be checked.</param>
         /// <param name="normalizedRoleName">The role to check membership of</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> containing a flag indicating if the specified user is a member of the given group. If the 
+        /// <returns>A <see cref="Task{TResult}"/> containing a flag indicating if the specified user is a member of the given group. If the
         /// user is a member of the group the returned value with be true, otherwise it will be false.</returns>
         public override async Task<bool> IsInRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -721,7 +718,7 @@ namespace AspNetCore.Identity.MongoDbCore
         /// <param name="claim">The claim whose users should be retrieved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>
-        /// The <see cref="Task"/> contains a list of users, if any, that contain the specified claim. 
+        /// The <see cref="Task"/> contains a list of users, if any, that contain the specified claim.
         /// </returns>
         public async override Task<IList<TUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -744,7 +741,7 @@ namespace AspNetCore.Identity.MongoDbCore
         /// <param name="normalizedRoleName">The role whose users should be retrieved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>
-        /// The <see cref="Task"/> contains a list of users, if any, that are in the specified role. 
+        /// The <see cref="Task"/> contains a list of users, if any, that are in the specified role.
         /// </returns>
         public async override Task<IList<TUser>> GetUsersInRoleAsync(string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1125,7 +1122,7 @@ namespace AspNetCore.Identity.MongoDbCore
             if (user.SecurityStamp != stamp)
             {
                 user.SecurityStamp = stamp;
-                MongoRepository.UpdateOne<TUser, TKey, string>(user, e => e.SecurityStamp, user.SecurityStamp);
+                _ = MongoRepository.UpdateOne<TUser, TKey, string>(user, e => e.SecurityStamp, user.SecurityStamp);
             }
             return Task.CompletedTask;
         }

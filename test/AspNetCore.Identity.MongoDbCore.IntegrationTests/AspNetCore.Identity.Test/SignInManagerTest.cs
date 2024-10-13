@@ -133,7 +133,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             // Assert
             Assert.False(result.Succeeded);
             Assert.True(result.IsLockedOut);
-            Assert.Contains($"User {user.Id} is currently locked out.", loggerFactory.LogStore.ToString());
+            Assert.Contains($"User is currently locked out.", loggerFactory.LogStore.ToString());
             manager.Verify();
         }
 
@@ -164,7 +164,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             // Assert
             Assert.False(result.Succeeded);
             Assert.True(result.IsLockedOut);
-            Assert.Contains($"User {user.Id} is currently locked out.", loggerFactory.LogStore.ToString());
+            Assert.Contains($"User is currently locked out.", loggerFactory.LogStore.ToString());
             manager.Verify();
         }
 
@@ -752,7 +752,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             // Assert
             Assert.False(result.Succeeded);
             Assert.False(checkResult.Succeeded);
-            Assert.Contains($"User {user.Id} failed to provide the correct password.", loggerFactory.LogStore.ToString());
+            Assert.Contains($"User failed to provide the correct password.", loggerFactory.LogStore.ToString());
             manager.Verify();
             context.Verify();
         }
@@ -868,7 +868,7 @@ namespace Microsoft.AspNetCore.Identity.Test
 
             Assert.Equal(confirmed, result.Succeeded);
             Assert.NotEqual(confirmed, result.IsNotAllowed);
-            Assert.Equal(confirmed, !loggerFactory.LogStore.ToString().Contains($"User {user.Id} cannot sign in without a confirmed email."));
+            Assert.Equal(confirmed, !loggerFactory.LogStore.ToString().Contains($"User cannot sign in without a confirmed email."));
 
             manager.Verify();
             auth.Verify();
@@ -913,7 +913,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             // Assert
             Assert.Equal(confirmed, result.Succeeded);
             Assert.NotEqual(confirmed, result.IsNotAllowed);
-            Assert.Equal(confirmed, !loggerFactory.LogStore.ToString().Contains($"User {user.Id} cannot sign in without a confirmed phone number."));
+            Assert.Equal(confirmed, !loggerFactory.LogStore.ToString().Contains($"User cannot sign in without a confirmed phone number."));
             manager.Verify();
             auth.Verify();
         }

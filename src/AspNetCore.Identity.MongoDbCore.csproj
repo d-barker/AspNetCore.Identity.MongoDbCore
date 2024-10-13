@@ -48,11 +48,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup />
-
-  <ItemGroup />
-
-  <ItemGroup />
-
 </Project>

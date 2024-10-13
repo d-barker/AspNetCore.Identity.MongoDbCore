@@ -5,7 +5,7 @@ Allows you to use MongoDb instead of SQL server with Microsoft.AspNetCore.Identi
 
 Covered by 737 integration tests and unit tests from the modified [Microsoft.AspNetCore.Identity.EntityFrameworkCore.Test](https://github.com/aspnet/Identity/tree/b865d5878623077eeb715e600d75fa9c24dbb5a1/test/Microsoft.AspNetCore.Identity.EntityFrameworkCore.Test) test suite.
 
-Supports both `netstandard2.1` and `netcoreapp3.1`.
+Supports both `netstandard2.1` and `net6.0`.
 
 Available as a Nuget package : https://www.nuget.org/packages/AspNetCore.Identity.MongoDbCore/
 

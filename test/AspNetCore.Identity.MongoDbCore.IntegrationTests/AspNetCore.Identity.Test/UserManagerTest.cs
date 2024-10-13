@@ -682,7 +682,7 @@ namespace Microsoft.AspNetCore.Identity.Test
         }
 
         [Fact]
-        public void UserManagerWillUseTokenProviderInstance()
+        public async Task UserManagerWillUseTokenProviderInstance()
         {
             var provider = new ATokenProvider();
             var config = new ConfigurationBuilder().Build();
@@ -695,11 +695,11 @@ namespace Microsoft.AspNetCore.Identity.Test
                 ProviderInstance = provider
             })).AddUserStore<NoopUserStore>();
             var manager = services.BuildServiceProvider().GetService<UserManager<TestUser>>();
-            Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), "A", "purpose"));
+            await Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), "A", "purpose"));
         }
 
         [Fact]
-        public void UserManagerWillUseTokenProviderInstanceOverDefaults()
+        public async Task UserManagerWillUseTokenProviderInstanceOverDefaults()
         {
             var provider = new ATokenProvider();
             var config = new ConfigurationBuilder().Build();
@@ -708,11 +708,11 @@ namespace Microsoft.AspNetCore.Identity.Test
                     .AddLogging();
 
             services.AddIdentity<TestUser, TestRole>(o => o.Tokens.ProviderMap.Add(TokenOptions.DefaultProvider, new TokenProviderDescriptor(typeof(ATokenProvider))
-                {
-                    ProviderInstance = provider
-                })).AddUserStore<NoopUserStore>().AddDefaultTokenProviders();
+            {
+                ProviderInstance = provider
+            })).AddUserStore<NoopUserStore>();// .AddDefaultTokenProviders(); - net 6.0 now replaces the existing map
             var manager = services.BuildServiceProvider().GetService<UserManager<TestUser>>();
-            Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), TokenOptions.DefaultProvider, "purpose"));
+            await Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), TokenOptions.DefaultProvider, "purpose"));
         }
 
         [Fact]

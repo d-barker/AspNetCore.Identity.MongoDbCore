@@ -136,10 +136,10 @@ namespace AspNetCore.Identity.MongoDbCore.Test
             Assert.Equal(2, userClaims.Count);
             IdentityResultAssert.IsSuccess(await manager.RemoveClaimAsync(user, claims[1]));
             userClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(1, userClaims.Count);
+            Assert.Single(userClaims);
             IdentityResultAssert.IsSuccess(await manager.RemoveClaimAsync(user, claims[2]));
             userClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(0, userClaims.Count);
+            Assert.Empty(userClaims);
         }
 
         [Fact]
@@ -167,10 +167,10 @@ namespace AspNetCore.Identity.MongoDbCore.Test
             Assert.Equal(2, userClaims.Count);
             IdentityResultAssert.IsSuccess(await manager.RemoveClaimAsync(user, claims[1]));
             userClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(1, userClaims.Count);
+            Assert.Single(userClaims);
             IdentityResultAssert.IsSuccess(await manager.RemoveClaimAsync(user, claims[2]));
             userClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(0, userClaims.Count);
+            Assert.Empty(userClaims);
             var userClaims2 = await manager.GetClaimsAsync(user2);
             Assert.Equal(3, userClaims2.Count);
         }
@@ -187,12 +187,12 @@ namespace AspNetCore.Identity.MongoDbCore.Test
             IdentityResultAssert.IsSuccess(await manager.CreateAsync(user));
             IdentityResultAssert.IsSuccess(await manager.AddClaimAsync(user, new Claim("c", "a", "i")));
             var userClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(1, userClaims.Count);
+            Assert.Single(userClaims);
             Claim claim = new Claim("c", "b", "i");
             Claim oldClaim = userClaims.FirstOrDefault();
             IdentityResultAssert.IsSuccess(await manager.ReplaceClaimAsync(user, oldClaim, claim));
             var newUserClaims = await manager.GetClaimsAsync(user);
-            Assert.Equal(1, newUserClaims.Count);
+            Assert.Single(newUserClaims);
             Claim newClaim = newUserClaims.FirstOrDefault();
             Assert.Equal(claim.Type, newClaim.Type);
             Assert.Equal(claim.Value, newClaim.Value);

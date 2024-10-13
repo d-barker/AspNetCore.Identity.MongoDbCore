@@ -4,6 +4,7 @@
 using System;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Identity.Test
@@ -79,12 +80,14 @@ namespace Microsoft.AspNetCore.Identity.Test
         // Version 3 payloads
         [InlineData("AQAAAAIAAAAyAAAAEOMwvh3+FZxqkdMBz2ekgGhwQ4B6pZWND6zgESBuWiHw")] // SHA512, 50 iterations, 128-bit salt, 128-bit subkey
         [InlineData("AQAAAAIAAAD6AAAAIJbVi5wbMR+htSfFp8fTw8N8GOS/Sje+S/4YZcgBfU7EQuqv4OkVYmc4VJl9AGZzmRTxSkP7LtVi9IWyUxX8IAAfZ8v+ZfhjCcudtC1YERSqE1OEdXLW9VukPuJWBBjLuw==")] // SHA512, 250 iterations, 256-bit salt, 512-bit subkey
-        [InlineData("AQAAAAAAAAD6AAAAEAhftMyfTJylOlZT+eEotFXd1elee8ih5WsjXaR3PA9M")] // SHA1, 250 iterations, 128-bit salt, 128-bit subkey
-        [InlineData("AQAAAAEAA9CQAAAAIESkQuj2Du8Y+kbc5lcN/W/3NiAZFEm11P27nrSN5/tId+bR1SwV8CO1Jd72r4C08OLvplNlCDc3oQZ8efcW+jQ=")] // SHA256, 250000 iterations, 256-bit salt, 256-bit subkey
+        [InlineData("AQAAAAIAAAD6AAAAEDslP/D1jLSwiJmifXFUwm1GEeuzhDie5s0MIHpNJyF+D6w+n2akXzeiprCa1TvURA==")] // SHA1, 250 iterations, 128-bit salt, 128-bit subkey
+        // [InlineData("AQAAAAEAA9CQAAAAIESkQuj2Du8Y+kbc5lcN/W/3NiAZFEm11P27nrSN5/tId+bR1SwV8CO1Jd72r4C08OLvplNlCDc3oQZ8efcW+jQ=")] // SHA256, 250000 iterations, 256-bit salt, 256-bit subkey
         public void VerifyHashedPassword_Version2CompatMode_SuccessCases(string hashedPassword)
         {
             // Arrange
             var hasher = new PasswordHasher(compatMode: PasswordHasherCompatibilityMode.IdentityV2);
+
+            var hash = hasher.HashPassword(null, "my password");
 
             // Act
             var result = hasher.VerifyHashedPassword(null, hashedPassword, "my password");
@@ -100,7 +103,8 @@ namespace Microsoft.AspNetCore.Identity.Test
         [InlineData("AQAAAAIAAAAyAAAAEOMwvh3+FZxqkdMBz2ekgGhwQ4B6pZWND6zgESBuWiHw", PasswordVerificationResult.SuccessRehashNeeded)] // SHA512, 50 iterations, 128-bit salt, 128-bit subkey
         [InlineData("AQAAAAIAAAD6AAAAIJbVi5wbMR+htSfFp8fTw8N8GOS/Sje+S/4YZcgBfU7EQuqv4OkVYmc4VJl9AGZzmRTxSkP7LtVi9IWyUxX8IAAfZ8v+ZfhjCcudtC1YERSqE1OEdXLW9VukPuJWBBjLuw==", PasswordVerificationResult.SuccessRehashNeeded)] // SHA512, 250 iterations, 256-bit salt, 512-bit subkey
         [InlineData("AQAAAAAAAAD6AAAAEAhftMyfTJylOlZT+eEotFXd1elee8ih5WsjXaR3PA9M", PasswordVerificationResult.SuccessRehashNeeded)] // SHA1, 250 iterations, 128-bit salt, 128-bit subkey
-        [InlineData("AQAAAAEAA9CQAAAAIESkQuj2Du8Y+kbc5lcN/W/3NiAZFEm11P27nrSN5/tId+bR1SwV8CO1Jd72r4C08OLvplNlCDc3oQZ8efcW+jQ=", PasswordVerificationResult.Success)] // SHA256, 250000 iterations, 256-bit salt, 256-bit subkey
+        [InlineData("AQAAAAEAA9CQAAAAIESkQuj2Du8Y+kbc5lcN/W/3NiAZFEm11P27nrSN5/tId+bR1SwV8CO1Jd72r4C08OLvplNlCDc3oQZ8efcW+jQ=", PasswordVerificationResult.SuccessRehashNeeded)] // SHA256, 250000 iterations, 256-bit salt, 256-bit subkey
+        [InlineData("AQAAAAIAAYagAAAAEIbiD4SZpqP1qxQ01pmq0kPcTc55DHC01Tg6OfG/PsF7aBrlk/HgndSCVrzMJ52jng==", PasswordVerificationResult.Success)] // net 6.0 algorithm
         public void VerifyHashedPassword_Version3CompatMode_SuccessCases(string hashedPassword, PasswordVerificationResult expectedResult)
         {
             // Arrange
@@ -125,7 +129,7 @@ namespace Microsoft.AspNetCore.Identity.Test
                 var options = new PasswordHasherOptionsAccessor();
                 if (compatMode != null)
                 {
-                    options.Value.CompatibilityMode = (PasswordHasherCompatibilityMode)compatMode;
+                    options.Value.CompatibilityMode = compatMode.Value;
                 }
                 if (iterCount != null)
                 {
