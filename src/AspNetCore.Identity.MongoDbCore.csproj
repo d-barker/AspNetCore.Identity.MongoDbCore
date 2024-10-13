@@ -17,27 +17,20 @@
     <RepositoryUrl>https://github.com/alexandre-spieser/AspNetCore.Identity.MongoDbCore</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <!-- Versioning -->
-    <PackageVersion>6.0.1</PackageVersion>
-    <Version>6.0.0</Version>
-    <FileVersion>6.0.0</FileVersion>
+    <PackageVersion>6.0.35</PackageVersion>
+    <Version>6.0.35</Version>
+    <FileVersion>6.0.35</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.8" />
-    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
-    <PackageReference Include="MongoDbGenericRepository" Version="1.6.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.8" />
-    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
-    <PackageReference Include="MongoDbGenericRepository" Version="1.6.0" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.35" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.35" />
+    <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
+    <PackageReference Include="MongoDbGenericRepository" Version="2.29.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,5 +48,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup />
+
+  <ItemGroup />
+
+  <ItemGroup />
 
 </Project>
